@@ -1,0 +1,35 @@
+INP
+STA n      // stocke la valeur de n dans l'emplacement de mémoire n
+SUB ten    // soustrait 10 à n
+BRP invalid // saute à invalid si n >= 10
+BRZ invalid // saute à invalid si n == 0
+LDA n
+STA count  // stocke la valeur de n dans count
+LDA TAB
+STA ptr    // stocke l'adresse de début du tableau dans ptr
+input_loop: INP
+STA 0, ptr // stocke l'entrée dans l'emplacement de mémoire pointé par ptr
+ADD one
+STA ptr    // avance le pointeur au prochain emplacement de mémoire
+SUB count
+BRZ input_done // saute à input_done si le tableau est complètement initialisé
+BRP input_loop // sinon boucle
+invalid: LDA minus_one
+OUT        // affiche -1 sur la sortie
+HLT        // termine l'exécution
+input_done: LDA TAB
+OUT        // affiche le premier élément du tableau sur la sortie
+LDA count
+SUB one
+ADD TAB
+OUT        // affiche le dernier élément du tableau sur la sortie
+HLT        // termine l'exécution
+
+n DAT
+count DAT
+ptr DAT
+TAB DAT 0,0,0,0,0,0,0,0,0,0
+minus_one DAT -1
+ten DAT 10
+one DAT 1
+
